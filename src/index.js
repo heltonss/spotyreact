@@ -2,9 +2,8 @@ import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import './config/ReactotronConfig';
 import GlobalStyle from './assets/styles/global';
-
+import './config/ReactotronConfig';
 
 ReactDOM.render(
   <Fragment>
