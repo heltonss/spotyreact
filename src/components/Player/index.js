@@ -7,10 +7,17 @@ import PlayIcon from 'assets/images/play.svg';
 import PauseIcon from 'assets/images/pause.svg';
 import ForwardIcon from 'assets/images/forward.svg';
 import RepeatIcon from 'assets/images/repeat.svg';
-import { Container, Current, Volume, Progress, Controls, Time, ProgressSlider } from './style';
+import Sound from 'react-sound';
+import { connect } from 'react-redux';
+import PropTypes  from 'prop-types';
+import {
+  Container, Current, Volume, Progress, Controls, Time, ProgressSlider,
+} from './style';
+import { string } from 'postcss-selector-parser';
 
-const Player = () => (
+const Player = ({player}) => (
   <Container>
+    {!!player.currentSong && <Sound url={player.currentSong.file} playStatus={player.status} />}
     <Current>
       <img src="https://via.placeholder.com/100" alt="cover" />
       <div>
@@ -40,11 +47,9 @@ const Player = () => (
         <span>1:39</span>
         <ProgressSlider>
           <Slider
-          railStyle={{ background: '#404040', borderRadius: 10}}
-          trackStyle={{background: '#1ed768'}}
-          handleStyle={{border: 0}}
-
-
+            railStyle={{ background: '#404040', borderRadius: 10 }}
+            trackStyle={{ background: '#1ed768' }}
+            handleStyle={{ border: 0 }}
           />
         </ProgressSlider>
         <span>2:39</span>
@@ -61,4 +66,17 @@ const Player = () => (
     </Volume>
   </Container>
 );
-export default Player;
+
+Player.propTypes = {
+player: PropTypes.shape({
+  currentSong: PropTypes.shape({
+    file: string,
+  }),
+  status: PropTypes.string
+}).isRequired
+}
+
+const mapStateToProps = state => ({
+  player: state.player,
+});
+export default connect(mapStateToProps)(Player);
