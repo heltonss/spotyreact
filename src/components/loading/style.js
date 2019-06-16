@@ -2,11 +2,10 @@ import styled, { keyframes } from 'styled-components';
 
 export const rotate360 = keyframes`
   from {
-    transfrom: rotate(0deg);
+    transform: rotate(0deg);
   }
-
   to {
-    transfrom: rotate(360deg)
+    transform: rotate(360deg)
   }
 `;
 
