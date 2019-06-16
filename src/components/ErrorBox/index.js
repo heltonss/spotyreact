@@ -7,21 +7,21 @@ import { Container } from './style';
 import CloseIcon from '../../assets/images/close.svg';
 
 const ErrorBox = ({ error: { message, visible }, hideError }) => visible && (
-  <Container>
-    <p>{message}</p>
-    <button onClick={hideError}>
-      <img src={CloseIcon} alt="fechar" />
-    </button>
-  </Container>
+<Container>
+  <p>{message}</p>
+  <button onClick={hideError}>
+    <img src={CloseIcon} alt="fechar" />
+  </button>
+</Container>
 );
 
-ErrorBox.propTypes ={
+ErrorBox.propTypes = {
   hideError: PropTypes.func.isRequired,
   error: PropTypes.shape({
-visible: PropTypes.bool,
-message: PropTypes.string
+    visible: PropTypes.bool,
+    message: PropTypes.string,
   }).isRequired,
-}
+};
 
 const mapStateToProps = state => ({
   error: state.error,

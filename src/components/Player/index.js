@@ -17,7 +17,7 @@ import {
 } from './style';
 
 
-const Player = ({ player, play, pause }) => (
+const Player = ({ player, play, pause, next, prev }) => (
   <Container>
     {!!player.currentSong && <Sound url={player.currentSong.file} playStatus={player.status} />}
     <Current>
@@ -36,7 +36,7 @@ const Player = ({ player, play, pause }) => (
         <button>
           <img src={ShuffleIcon} alt="Shuffle" />
         </button>
-        <button>
+        <button onClick={prev}>
           <img src={BackwardIcon} alt="backward" />
         </button>
         {
@@ -52,7 +52,7 @@ const Player = ({ player, play, pause }) => (
          
           )
         }
-        <button>
+        <button onClick={next}>
           <img src={ForwardIcon} alt="foward" />
         </button>
         <button>
@@ -94,7 +94,9 @@ Player.propTypes = {
     status: PropTypes.string,
   }).isRequired,
   play: PropTypes.func.isRequired,
-  pause: PropTypes.func.isRequired
+  pause: PropTypes.func.isRequired,
+  next: PropTypes.func.isRequired,
+  prev: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

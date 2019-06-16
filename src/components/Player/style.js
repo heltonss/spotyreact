@@ -50,6 +50,7 @@ export const Controls = styled.div`
 
   button {
     background: transparent;
+    cursor: pointer;
     border: 0;
     margin: 0 15px;
   }

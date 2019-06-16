@@ -71,7 +71,7 @@ músicas
               playlist.songs.map(song => (
                 <SongItem 
                 key={song.id} 
-                onDoubleClick={() => this.props.loadSong(song)}
+                onDoubleClick={() => this.props.loadSong(song, playlist.songs)}
                 onClick={() => this.setState({
                   selectedSong: song.id
                 })}
