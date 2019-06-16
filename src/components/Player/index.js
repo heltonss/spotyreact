@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Slider from 'rc-slider';
 import VolumeIcon from 'assets/images/volume.svg';
 import ShuffleIcon from 'assets/images/shuffle.svg';
@@ -9,21 +9,27 @@ import ForwardIcon from 'assets/images/forward.svg';
 import RepeatIcon from 'assets/images/repeat.svg';
 import Sound from 'react-sound';
 import { connect } from 'react-redux';
-import PropTypes  from 'prop-types';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { Creators as PlayerActions } from 'store/ducks/player';
 import {
   Container, Current, Volume, Progress, Controls, Time, ProgressSlider,
 } from './style';
-import { string } from 'postcss-selector-parser';
 
-const Player = ({player}) => (
+
+const Player = ({ player, play, pause }) => (
   <Container>
     {!!player.currentSong && <Sound url={player.currentSong.file} playStatus={player.status} />}
     <Current>
-      <img src="https://via.placeholder.com/100" alt="cover" />
-      <div>
-        <span>title</span>
-        <small>foo fighters</small>
-      </div>
+      {!!player.currentSong && (
+        <Fragment>
+          <img src={player.currentSong.thumbnail} alt={player.title} />
+          <div>
+            <span>{player.currentSong.title}</span>
+            <small>{player.currentSong.author}</small>
+          </div>
+        </Fragment>
+      )}
     </Current>
     <Progress>
       <Controls>
@@ -33,9 +39,19 @@ const Player = ({player}) => (
         <button>
           <img src={BackwardIcon} alt="backward" />
         </button>
-        <button>
-          <img src={PlayIcon} alt="play" />
-        </button>
+        {
+          !!player.currentSong && player.status === Sound.status.PLAYING ?(
+            <button onClick={pause}>
+            <img src={PauseIcon} alt="pause" />
+          </button>
+         
+          ):(
+            <button onClick={play}>
+            <img src={PlayIcon} alt="play" />
+          </button>
+         
+          )
+        }
         <button>
           <img src={ForwardIcon} alt="foward" />
         </button>
@@ -68,15 +84,24 @@ const Player = ({player}) => (
 );
 
 Player.propTypes = {
-player: PropTypes.shape({
-  currentSong: PropTypes.shape({
-    file: string,
-  }),
-  status: PropTypes.string
-}).isRequired
-}
+  player: PropTypes.shape({
+    currentSong: PropTypes.shape({
+      file: PropTypes.string,
+      title: PropTypes.string,
+      thumbnail: PropTypes.string,
+      author: PropTypes.string,
+    }),
+    status: PropTypes.string,
+  }).isRequired,
+  play: PropTypes.func.isRequired,
+  pause: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({
   player: state.player,
 });
-export default connect(mapStateToProps)(Player);
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(PlayerActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player);
