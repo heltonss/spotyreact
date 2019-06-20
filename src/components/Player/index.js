@@ -28,7 +28,8 @@ const Player = ({
   positionShown,
   setPosition,
   handlePosition,
-  progress
+  progress,
+  setVolume
 }) => (
   <Container>
     {!!player.currentSong && (
@@ -38,6 +39,7 @@ const Player = ({
         onFinishedPlaying={next}
         playStatus={player.status}
         position={player.position}
+        volume={player.volume}
       />
     )}
     <Current>
@@ -96,8 +98,9 @@ const Player = ({
       <Slider
         railStyle={{ background: '#404040', borderRadius: 10 }}
         trackStyle={{ background: '#fff' }}
-        handleStyle={{ display: 'none' }}
-        
+        handleStyle={{ display: 'block' }}
+        value={player.volume}
+        onChange={setVolume}
       />
     </Volume>
   </Container>
